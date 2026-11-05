@@ -9,9 +9,34 @@
     --paper: #ffffff;
     --page: #f3f4f6;
     --line: #e6e2dc;
+    --form-background: #fbfaf8;
+    --table-stripe: #faf8f4;
+    --label-color: #36363a;
+    --strong-color: #343438;
+    --subheading-color: #76520b;
     --shadow: 0 12px 32px rgba(37, 27, 24, 0.08);
     --shadow-hover: 0 18px 38px rgba(37, 27, 24, 0.13);
     --radius: 16px;
+}
+
+body.dark-theme {
+    color-scheme: dark;
+    --burgundy: #e7bd63;
+    --burgundy-deep: #101722;
+    --gold: #e7bd63;
+    --gold-light: #f2d58f;
+    --ink: #edf2f7;
+    --muted: #c1ccda;
+    --paper: #1c2735;
+    --page: #111923;
+    --line: #354354;
+    --form-background: #17212d;
+    --table-stripe: #202d3b;
+    --label-color: #e1e8f0;
+    --strong-color: #f2f5f8;
+    --subheading-color: #f2d58f;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    --shadow-hover: 0 18px 38px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -66,6 +91,22 @@ header {
         linear-gradient(125deg, var(--burgundy-deep) 0%, var(--burgundy) 56%, #805507 100%);
     color: var(--paper);
     text-align: center;
+}
+
+body.dark-theme header {
+    background:
+        radial-gradient(ellipse at 85% 0%, rgba(231, 189, 99, 0.16), transparent 38%),
+        linear-gradient(125deg, #0b1119 0%, #202c3b 56%, #4a391d 100%);
+    color: #f8fafc;
+}
+
+body.dark-theme nav a,
+body.dark-theme .theme-toggle {
+    color: #f8fafc;
+}
+
+body.dark-theme a:hover {
+    color: #f2d58f;
 }
 
 header::after {
@@ -138,6 +179,22 @@ nav a:focus-visible {
     outline-color: var(--gold-light);
 }
 
+.theme-toggle {
+    position: relative;
+    z-index: 1;
+    min-width: 120px;
+    margin-top: 1rem;
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--paper);
+}
+
+.theme-toggle:hover {
+    border-color: var(--paper);
+    background: var(--paper);
+    color: var(--burgundy-deep);
+}
+
 main {
     width: min(100% - 2.5rem, 1160px);
     margin: 0 auto;
@@ -174,7 +231,7 @@ h2 {
 
 h3 {
     margin: 1.6rem 0 0.55rem;
-    color: #76520b;
+    color: var(--subheading-color);
     font-size: clamp(1.12rem, 2.4vw, 1.3rem);
     line-height: 1.4;
 }
@@ -189,7 +246,7 @@ p:last-child {
 }
 
 strong {
-    color: #343438;
+    color: var(--strong-color);
 }
 
 ul,
@@ -265,20 +322,20 @@ th {
 }
 
 tr:nth-child(even) td {
-    background: #faf8f4;
+    background: var(--table-stripe);
 }
 
 form {
     padding: clamp(1.1rem, 3vw, 2rem);
     border: 1px solid var(--line);
     border-radius: 14px;
-    background: #fbfaf8;
+    background: var(--form-background);
 }
 
 label {
     display: inline-block;
     margin-top: 0.4rem;
-    color: #36363a;
+    color: var(--label-color);
     font-size: 0.96rem;
     font-weight: 650;
 }
