@@ -443,6 +443,17 @@ img {
     flex: 0 0 auto;
 }
 
+.cookie-actions {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.cookie-actions button {
+    margin: 0;
+}
+
 table {
     display: block;
     width: 100%;
@@ -617,6 +628,10 @@ footer p {
         align-items: stretch;
         gap: 0.8rem;
         padding: 1rem;
+    }
+
+    .cookie-actions {
+        flex-direction: column;
     }
 
     th,

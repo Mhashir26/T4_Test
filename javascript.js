@@ -5,7 +5,7 @@
 // ==========================================
 
 const THEME_STORAGE_KEY = "portfolio-theme";
-const COOKIE_NOTICE_STORAGE_KEY = "restaurant-notice-dismissed";
+const COOKIE_CONSENT_STORAGE_KEY = "portfolio-cookie-consent";
 
 function applyTheme(isDark) {
     document.body.classList.toggle("dark-theme", isDark);
@@ -42,13 +42,18 @@ initializeThemeToggle();
 function initializeCookieNotice() {
     const notice = document.getElementById("cookieNotice");
     const acceptButton = document.getElementById("acceptCookies");
-    if (!notice || !acceptButton) return;
+    const rejectButton = document.getElementById("rejectCookies");
+    if (!notice || !acceptButton || !rejectButton) return;
 
-    notice.hidden = localStorage.getItem(COOKIE_NOTICE_STORAGE_KEY) === "accepted";
-    acceptButton.addEventListener("click", () => {
-        localStorage.setItem(COOKIE_NOTICE_STORAGE_KEY, "accepted");
+    notice.hidden = localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY) !== null;
+
+    function saveConsent(choice) {
+        localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, choice);
         notice.hidden = true;
-    });
+    }
+
+    acceptButton.addEventListener("click", () => saveConsent("accepted"));
+    rejectButton.addEventListener("click", () => saveConsent("rejected"));
 }
 
 initializeCookieNotice();
