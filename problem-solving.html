@@ -260,6 +260,32 @@ Privacy and GDPR considerations
 
 <section>
 
+<h2>Menu Highlights & Current Offer</h2>
+
+<div class="feature-grid">
+    <article class="feature-card">
+        <h3>From the menu</h3>
+        <ul>
+            <li><strong>Bruschetta al Pomodoro</strong> — toasted bread, tomato, basil</li>
+            <li><strong>Tagliatelle al Ragù</strong> — slow-cooked sauce and parmesan</li>
+            <li><strong>Tiramisu</strong> — espresso-soaked sponge and mascarpone</li>
+        </ul>
+        <p>Sample menu for this fictional restaurant concept. Prices and allergens should be confirmed with the restaurant.</p>
+    </article>
+    <article class="feature-card offer-card">
+        <p class="eyebrow">Example promotion</p>
+        <h3>Midweek set menu</h3>
+        <p>Join us Tuesday to Thursday for a two-course set menu. Contact the restaurant to check availability and current pricing.</p>
+        <a href="#booking-form">Ask about this offer</a>
+    </article>
+</div>
+
+</section>
+
+
+
+<section>
+
 <h2>How The Solution Addresses The Problems</h2>
 
 
@@ -297,7 +323,7 @@ Online booking request form
 </td>
 
 <td>
-Reduces missed bookings and improves customer convenience
+Makes it easier to request a booking; confirmation remains manual
 </td>
 
 </tr>
@@ -381,96 +407,69 @@ the restaurant without requiring a database system.
 
 
 
-<form onsubmit="generateEmail(); return false;">
-
-
-<label>
-Customer Name:
-</label>
-
-<br>
-
-<input type="text" id="customerName" required>
-
-<br><br>
-
-
-
-<label>
-Email Address:
-</label>
-
-<br>
-
-<input type="email" id="customerEmail" required>
-
-<br><br>
-
-
-
-<label>
-Request Type:
-</label>
-
-<br>
-
-
-<select id="requestType">
-
-
-<option>
-Table Booking
-</option>
-
-
-<option>
-Feedback
-</option>
-
-
-<option>
-General Enquiry
-</option>
-
-
-</select>
-
-
-<br><br>
-
-
-
-<label>
-Preferred Date:
-</label>
-
-<br>
-
-
-<input type="date" id="bookingDate">
-
-
-<br><br>
-
-
-
-<label>
-Message:
-</label>
-
-<br>
-
-
-<textarea id="customerMessage"></textarea>
-
-
-<br><br>
-
-
-
-<input type="submit" value="Submit Request">
-
-
+<form id="booking-form">
+    <div class="form-grid">
+        <div>
+            <label for="customerName">Your name</label>
+            <input type="text" id="customerName" name="name" autocomplete="name" required>
+        </div>
+        <div>
+            <label for="customerEmail">Email address</label>
+            <input type="email" id="customerEmail" name="email" autocomplete="email" required>
+        </div>
+        <div>
+            <label for="requestType">What can we help with?</label>
+            <select id="requestType" name="requestType">
+                <option value="Table booking">Table booking</option>
+                <option value="Feedback">Feedback</option>
+                <option value="General enquiry">General enquiry</option>
+            </select>
+        </div>
+        <div>
+            <label for="customerPhone">Phone number <span class="field-hint">(required for bookings)</span></label>
+            <input type="tel" id="customerPhone" name="phone" autocomplete="tel" placeholder="e.g. 07123 456789">
+        </div>
+        <div data-booking-field>
+            <label for="bookingDate">Preferred date</label>
+            <input type="date" id="bookingDate" name="date">
+        </div>
+        <div data-booking-field>
+            <label for="bookingTime">Preferred time</label>
+            <input type="time" id="bookingTime" name="time">
+        </div>
+        <div data-booking-field>
+            <label for="partySize">Party size</label>
+            <select id="partySize" name="partySize">
+                <option value="">Select party size</option>
+                <option value="1">1 guest</option>
+                <option value="2">2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5">5 guests</option>
+                <option value="6">6 guests</option>
+                <option value="7+">7 or more guests</option>
+            </select>
+        </div>
+        <div data-feedback-field hidden>
+            <label for="feedbackRating">Your rating</label>
+            <select id="feedbackRating" name="rating">
+                <option value="">Select a rating</option>
+                <option value="5 out of 5">5 — Excellent</option>
+                <option value="4 out of 5">4 — Very good</option>
+                <option value="3 out of 5">3 — Good</option>
+                <option value="2 out of 5">2 — Could be better</option>
+                <option value="1 out of 5">1 — Poor</option>
+            </select>
+        </div>
+    </div>
+    <label for="customerMessage">Message or special requests</label>
+    <textarea id="customerMessage" name="message" rows="5"></textarea>
+    <label class="checkbox-label" for="privacyConsent">
+        <input type="checkbox" id="privacyConsent" name="privacyConsent" required>
+        <span>I have read the <a href="#privacy">privacy information</a> and agree to be contacted about this request.</span>
+    </label>
+    <button type="submit">Prepare email request</button>
+    <p class="form-note">This demo opens your email app with the request details. Nothing is sent or stored by this page; you must review and send the email yourself.</p>
 </form>
 
 
@@ -493,8 +492,9 @@ and updates.
 
 </p>
 
+<p class="field-hint">Fictional example profiles for this case study:</p>
 
-<a href="https://facebook.com" target="_blank">
+<a href="https://www.facebook.com/bellavistamanchester/" target="_blank" rel="noopener noreferrer">
 Facebook
 </a>
 
@@ -502,7 +502,7 @@ Facebook
 <br>
 
 
-<a href="https://instagram.com" target="_blank">
+<a href="https://www.instagram.com/bellavista.manchester/" target="_blank" rel="noopener noreferrer">
 Instagram
 </a>
 
@@ -510,8 +510,8 @@ Instagram
 <br>
 
 
-<a href="https://x.com" target="_blank">
-Twitter / X
+<a href="https://x.com/BellaVistaMCR" target="_blank" rel="noopener noreferrer">
+X
 </a>
 
 
@@ -558,32 +558,31 @@ Email: info@bellavista.co.uk
 
 <section>
 
-<h2>Privacy, Security and GDPR Considerations</h2>
+<h2 id="privacy">Privacy, Security and Data Use</h2>
 
 
 <p>
 
-Customer information collected through the form should only be used
-for responding to booking requests and enquiries.
-
-The website does not permanently store customer information. Users are
-informed about how their data is used, supporting GDPR principles such
-as transparency and responsible data handling.
-
-</p>
-
-
-<p>
-
-A cookie consent reminder should also be displayed to inform users that
-cookies may be used to improve website functionality and user
-experience.
+The form prepares an email on your device; this demo has no server and
+does not transmit or save form submissions. Only include information
+needed for your request, review the email before sending, and contact
+the restaurant directly about its real privacy policy. The site uses
+browser local storage to remember the display theme and dismiss this
+notice. It does not use advertising or analytics cookies.
 
 </p>
 
 
 </section>
 
+
+<aside class="cookie-notice" id="cookieNotice" aria-label="Cookie and storage notice">
+    <div>
+        <h2>Cookie &amp; storage notice</h2>
+        <p>This demo saves your theme choice and notice preference in your browser's local storage. It does not use advertising or analytics cookies. <a href="#privacy">Read the privacy information</a>.</p>
+    </div>
+    <button type="button" id="acceptCookies">Accept and dismiss</button>
+</aside>
 
 
 </main>

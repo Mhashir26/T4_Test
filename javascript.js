@@ -5,6 +5,7 @@
 // ==========================================
 
 const THEME_STORAGE_KEY = "portfolio-theme";
+const COOKIE_NOTICE_STORAGE_KEY = "restaurant-notice-dismissed";
 
 function applyTheme(isDark) {
     document.body.classList.toggle("dark-theme", isDark);
@@ -38,69 +39,76 @@ function initializeThemeToggle() {
 
 initializeThemeToggle();
 
-function generateEmail() {
+function initializeCookieNotice() {
+    const notice = document.getElementById("cookieNotice");
+    const acceptButton = document.getElementById("acceptCookies");
+    if (!notice || !acceptButton) return;
 
-    // Get values from the form
+    notice.hidden = localStorage.getItem(COOKIE_NOTICE_STORAGE_KEY) === "accepted";
+    acceptButton.addEventListener("click", () => {
+        localStorage.setItem(COOKIE_NOTICE_STORAGE_KEY, "accepted");
+        notice.hidden = true;
+    });
+}
 
-    const name = document.getElementById("customerName").value;
+initializeCookieNotice();
 
-    const email = document.getElementById("customerEmail").value;
+function initializeRestaurantForm() {
+    const form = document.getElementById("booking-form");
+    if (!form) return;
 
-    const requestType = document.getElementById("requestType").value;
+    const requestType = document.getElementById("requestType");
+    const bookingFields = form.querySelectorAll("[data-booking-field]");
+    const feedbackFields = form.querySelectorAll("[data-feedback-field]");
+    const bookingInputs = ["bookingDate", "bookingTime", "partySize"]
+        .map((id) => document.getElementById(id));
+    const rating = document.getElementById("feedbackRating");
+    const phone = document.getElementById("customerPhone");
 
-    const bookingDate = document.getElementById("bookingDate").value;
+    function updateRequestFields() {
+        const isBooking = requestType.value === "Table booking";
+        const isFeedback = requestType.value === "Feedback";
 
-    const message = document.getElementById("customerMessage").value;
-
-
-    // Basic validation
-
-    if (name === "" || email === "") {
-
-        alert("Please complete all required fields.");
-
-        return;
-
+        bookingFields.forEach((field) => {
+            field.hidden = !isBooking;
+        });
+        feedbackFields.forEach((field) => {
+            field.hidden = !isFeedback;
+        });
+        bookingInputs.forEach((input) => {
+            input.required = isBooking;
+        });
+        phone.required = isBooking;
+        rating.required = isFeedback;
     }
 
+    requestType.addEventListener("change", updateRequestFields);
+    updateRequestFields();
+    form.addEventListener("submit", generateEmail);
+}
 
-    // Email subject
+initializeRestaurantForm();
 
-    const subject = encodeURIComponent(requestType + " - " + name);
+function generateEmail(event) {
+    event.preventDefault();
 
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const requestType = formData.get("requestType");
+    const details = [
+        ["Customer name", formData.get("name")],
+        ["Email address", formData.get("email")],
+        ["Phone number", formData.get("phone")],
+        ["Request type", requestType],
+        ["Preferred date", formData.get("date")],
+        ["Preferred time", formData.get("time")],
+        ["Party size", formData.get("partySize")],
+        ["Feedback rating", formData.get("rating")],
+        ["Message", formData.get("message")]
+    ].filter(([, value]) => value);
 
-    // Email body
-
-    const body = encodeURIComponent(
-
-        "Customer Name: " + name +
-
-        "\n\nEmail Address: " + email +
-
-        "\n\nRequest Type: " + requestType +
-
-        "\n\nPreferred Date: " + bookingDate +
-
-        "\n\nMessage:\n" + message
-
-    );
-
-
-    // Restaurant email
-
-    const restaurantEmail = "info@bellavista.co.uk";
-
-
-    // Open default email application
-
-    window.location.href =
-        "mailto:" + restaurantEmail +
-        "?subject=" + subject +
-        "&body=" + body;
-
-
-    // Confirmation message
-
-    alert("Thank you! Your email has been prepared. Please click Send in your email application.");
-
+    const subject = encodeURIComponent(`${requestType} - ${formData.get("name")}`);
+    const body = encodeURIComponent(details.map(([label, value]) => `${label}: ${value}`).join("\n\n"));
+    window.location.href = `mailto:info@bellavista.co.uk?subject=${subject}&body=${body}`;
+    alert("Your email has been prepared. Please review it and click Send in your email application.");
 }
