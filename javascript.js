@@ -58,6 +58,7 @@ function initializeRestaurantForm() {
     if (!form) return;
 
     const requestType = document.getElementById("requestType");
+    const loyaltyLink = document.querySelector("[data-loyalty-link]");
     const bookingFields = form.querySelectorAll("[data-booking-field]");
     const feedbackFields = form.querySelectorAll("[data-feedback-field]");
     const bookingInputs = ["bookingDate", "bookingTime", "partySize"]
@@ -83,6 +84,12 @@ function initializeRestaurantForm() {
     }
 
     requestType.addEventListener("change", updateRequestFields);
+    if (loyaltyLink) {
+        loyaltyLink.addEventListener("click", () => {
+            requestType.value = "Loyalty programme";
+            updateRequestFields();
+        });
+    }
     updateRequestFields();
     form.addEventListener("submit", generateEmail);
 }
